@@ -1110,7 +1110,14 @@ function HomePage(props: any) {
         setAudioResponse(result.data.links);
         setPlayVideo(true);
         setInVideoUrl(videoUrl);
-        
+        if (result.data.links.length === 0) {
+          alert(
+            "Unable to parse this website due to captcha protected or some other issues..."
+          );
+          handleClose();
+          return;
+        }
+
         setDisplayedItems(result.data.links.slice(0, itemsPerPage));
         setIsDownloadSuccess(true);
         setTimeout(() => {
