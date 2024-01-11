@@ -12,8 +12,12 @@ import FaqList from "./components/FaqList";
 
 function App() {
   const [color, setColor] = useState<string>("");
+  const [point, setPoint] = useState<number>(0);
   const handleColorChange = (color: string) => {
     setColor(color);
+  };
+  const handlePointChange = (p: number) => {
+    setPoint(p);
   };
 
   return (
@@ -23,6 +27,8 @@ function App() {
       <ColorContext.Provider
         value={{
           color: color,
+          point: point,
+          setPoint: handlePointChange,
           setColor: handleColorChange,
         }}
       >

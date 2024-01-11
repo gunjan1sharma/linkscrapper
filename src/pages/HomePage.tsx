@@ -1045,10 +1045,11 @@ function HomePage(props: any) {
   const [itemsPerPage, setItemsPerPage] = useState(10);
 
   useEffect(() => {
+    scrollToDiv();
     // setIsDownloadSuccess(true);
     // setDisplayedItems(audioResponse.links.slice(0, itemsPerPage));
     return () => {};
-  }, []);
+  }, [colorContex.point]);
 
   const handlePageChange = (event: any, newPage: any): any => {
     setCurrentPage(newPage);
@@ -1160,10 +1161,10 @@ function HomePage(props: any) {
   }
 
   function scrollToDiv() {
-    if (colorContex.color === "white") {
-      return;
+    if (colorContex.point !== 0) {
+      scrollRef.current.scrollIntoView({ behavior: "smooth" });
+      colorContex.setPoint(0);
     }
-    scrollRef.current.scrollIntoView();
   }
 
   const backdrop = (

@@ -6,25 +6,10 @@ import { ColorContext } from "../extras/ColorContext";
 function SimpleIntro(props: SimpleIntroProps) {
   const targetDivRef = useRef();
   const colorContex = useContext(ColorContext);
+
   
-
-  function generateRandomString(length: number = 5): string {
-    const characters =
-      "0123456789ABCDEFGHIJKLMNOPQRSTUVWXYZabcdefghijklmnopqrstuvwxyz";
-    let result = "";
-
-    for (let i = 0; i < length; i++) {
-      const randomIndex = Math.floor(Math.random() * characters.length);
-      result += characters.charAt(randomIndex);
-    }
-
-    return result;
-  }
-
   function callToActionClicked() {
-    var trigger = "white";
-    //trigger = generateRandomString();
-    colorContex.setColor(trigger);
+    colorContex.setPoint(colorContex.point + 1);
   }
 
   return (
