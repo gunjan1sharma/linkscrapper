@@ -8,13 +8,21 @@ import {
   TextField,
 } from "@mui/material";
 import DownloadImage from "../assets/images/download.png";
-import React, { ChangeEventHandler, useEffect, useState } from "react";
+import React, {
+  ChangeEventHandler,
+  useContext,
+  useEffect,
+  useRef,
+  useState,
+} from "react";
 import ReactPlayer from "react-player";
 import axios from "axios";
 import { Link, Root } from "../extras/types";
 import SingleComponent from "../components/SingleComponent";
+import FeatureIntro from "../components/FeatureIntro";
+import { ColorContext } from "../extras/ColorContext";
 
-const API_BASE_URL = `http://localhost:9999/extras/v1/api/parsing/link-parser?siteUrl=`;
+const API_BASE_URL = `https://appnor-backend.onrender.com/extras/v1/api/parsing/link-parser?siteUrl=`;
 var static_site_url = "";
 
 // const sampleResponse: Root = {
@@ -1022,6 +1030,7 @@ var static_site_url = "";
 // };
 
 function HomePage(props: any) {
+  const colorContex = useContext(ColorContext);
   const [videoUrl, setVideoUrl] = useState("");
   const [inVideoUrl, setInVideoUrl] = useState("");
   const [audioResponse, setAudioResponse] = useState<Link[]>();
@@ -1029,6 +1038,7 @@ function HomePage(props: any) {
   const [isTermsAggred, setIsTermsAggred] = useState(true);
   const [isDownloadSuccess, setIsDownloadSuccess] = useState(false);
   const [open, setOpen] = React.useState(false);
+  const scrollRef = useRef<any>(null);
 
   const [displayedItems, setDisplayedItems] = useState<Link[]>();
   const [currentPage, setCurrentPage] = useState(1);
@@ -1100,7 +1110,7 @@ function HomePage(props: any) {
     }
 
     if (videoUrl === "" || !videoUrl.startsWith("https://www")) {
-      alert("A Valid Website URL[https://www] is Required!!");
+      alert("A Valid Website URL [https://www] is Required!!");
       return;
     }
     handleOpen();
@@ -1149,6 +1159,13 @@ function HomePage(props: any) {
     window.open(audioUrl, "_blank");
   }
 
+  function scrollToDiv() {
+    if (colorContex.color === "white") {
+      return;
+    }
+    scrollRef.current.scrollIntoView();
+  }
+
   const backdrop = (
     <React.Fragment>
       <Backdrop
@@ -1167,8 +1184,15 @@ function HomePage(props: any) {
   );
 
   return (
-    <div className="m-10 flex flex-col items-center justify-center">
+    <div
+      ref={scrollRef}
+      className="md:m-10 sm:m-5 flex flex-col items-center justify-center"
+    >
       {backdrop}
+      <FeatureIntro
+        heading=" Unleash the Power of Link Sleuthing"
+        desc="Tired of manually hunting for links?  Unlock the hidden web with our effortless link-scraping solution! Simply paste any URL and watch our tool uncover every link with lightning speed!⚡️Discover hidden gems, boost SEO research, track backlinks, and more – all with a few clicks!"
+      />
       <div className="flex flex-col items-center border shadow-lg p-4">
         <TextField
           fullWidth
@@ -1193,8 +1217,8 @@ function HomePage(props: any) {
           Visit Website
         </Button>
         <h3 className="text-xs text-center w-80 m-2">
-          A direct list of result will get triggered if video has only one
-          format else a list of downloadable video will get presented.
+          Scrapped data will get presented in List based UI format or if data is
+          condensed then expect raw json.
         </h3>
         <div className="flex items-center justify-center">
           <Checkbox
